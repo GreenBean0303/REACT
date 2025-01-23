@@ -10,7 +10,7 @@
     color: white;
 }
 
-.expense-item__description {
+.expense-item_description {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -28,7 +28,7 @@
     color: white;
 }
 
-.expense-item__price {
+.expense-item_price {
     font-size: 1rem;
     font-weight: bold;
     color: white;
