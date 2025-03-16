@@ -1,42 +1,28 @@
+import { useState, useEffect } from 'react';
 import './App.css';
-import Expenses from './components/Expenses/Expenses.jsx';
-import NewExpense from './components/NewExpense/NewExpense.jsx'; 
-import { useState } from "react";
-
-const DUMMY_EXPENSES = [
-  { 
-      id: "id1",
-      date: new Date(2024, 10, 12),
-      title: "New book",
-      amount: 30.99
-  },
-  {
-      id: "id2",
-      date: new Date(2023, 5, 25),
-      title: "New jeans",
-      amount: 99.99
-  },
-  {
-      id: "id3",
-      date: new Date(2025, 2, 15),
-      title: "New Laptop",
-      amount: 1200
-  }
-];
+import Expenses from './components/Expenses/Expenses';
+import NewExpense from './components/NewExpense/NewExpense';
 
 const App = () => {
-  const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
+
+  const [expenses, setExpenses] = useState(() => {
+    const expensesFromLS = localStorage.getItem('expenses');
+    return expensesFromLS ? JSON.parse(expensesFromLS) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('expenses', JSON.stringify(expenses));
+  }, [expenses]);
 
   const addExpenseHandler = (expense) => {
-      console.log("In App.js", expense);
-      setExpenses((prevExpenses) => [expense, ...prevExpenses]); 
+    setExpenses((prevExpenses) => [expense, ...prevExpenses]);
   };
 
   return (
-      <div className="App">
-          <NewExpense onAddExpense={addExpenseHandler} />
-          <Expenses expenses={expenses} /> 
-      </div>
+    <div className="App">
+      <NewExpense onAddExpense={addExpenseHandler} />
+      <Expenses expenses={expenses} />
+    </div>
   );
 };
 
